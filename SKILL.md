@@ -35,7 +35,7 @@ Do not treat "this file has *something* useful" as a reason to keep the whole fi
 
 ### Topic mode — frequent
 
-Target: a single topic folder like `~/Research/ppc-agents/`. Most invocations.
+Target: a single topic folder like `~/Research/<topic>/` (one folder dedicated to a single research theme). Most invocations.
 
 ### Housekeeping mode — occasional
 
@@ -45,7 +45,7 @@ Target: `~/Research/` itself, containing multiple topic subfolders. Different ou
 
 ### Step 1 — Locate the target
 
-If the user says `/distil research` or "distil my research" without a path, ask which topic folder. Don't guess. Acceptable shortcuts: "the ppc-agents one" → `~/Research/ppc-agents/`.
+If the user says `/distil research` or "distil my research" without a path, ask which topic folder. Don't guess. Acceptable shortcuts: "the X one" → `~/Research/X/`.
 
 Resolve `~` to `/Users/priyeshpatel/`.
 
@@ -75,7 +75,7 @@ For incremental runs:
 
 Process only new and changed files. Unchanged files keep their existing classification.
 
-**Migration note (one-time):** if the manifest exists but there are kept-verdict files at the top level (e.g., from a pre-iter-3 run on the twitter folder), treat them as canonical and move them into `_sources/` as part of step 8. Don't reclassify; honour the existing verdict.
+**Migration note (one-time):** if the manifest exists but there are kept-verdict files at the top level (e.g., from a pre-iter-3 run on an existing folder), treat them as canonical and move them into `_sources/` as part of step 8. Don't reclassify; honour the existing verdict.
 
 ### Step 3 — Classify sections (tier filter)
 
@@ -172,7 +172,7 @@ Sections that pass tier but fail this gate are discarded (their idea is already 
 
 **Canonical-source rule** (applies after the gate): when multiple kept files cover the same topical territory (e.g., "hook formulas", "long-form formatting", "thread structures"), **only one file per topic is `canonical_source`** — the most authoritative or most complete. Others with surviving sections become `partial_extract` (or `supporting_signal` if they reinforce without adding). `canonical_source` is meant to be a rare designation; if half your files end up as canonical_source, the rule isn't being applied.
 
-**Expertise-aware rejection**: a section that would otherwise pass tier 1/2/3 still fails the gate if it covers content the user is known to be expert in. Foundational marketing/PPC concepts (the user's stated expertise) — e.g., "what is a curiosity gap", "what is social proof", "psychological principles of persuasion" — are tier-4 to this user, not tier-1, regardless of how concretely the source phrases them. Classify these as `low_signal`, not `partial_extract`.
+**Expertise-aware rejection**: a section that would otherwise pass tier 1/2/3 still fails the gate if it covers foundational content for an area the user has stated or implied expertise in. If you can tell the user is expert in domain X (from their role, the rest of their research, prior conversation context), content that's essentially "X 101" for someone with that background is tier-4 to them, not tier-1 — regardless of how concretely the source phrases it. Classify as `low_signal`, not `partial_extract`.
 
 ### Step 5 — In-playbook deduplication pass
 
@@ -237,10 +237,10 @@ Hierarchy / layers:
 
 Ranking by magnitude:
 ```
-Reply (sub-thread)    ████████████████████████  ~13–27× a like
-Quote tweet           ██████████████████        ~10–25×
-Bookmark              ███████████               ~10×
-Repost (plain)        ██                        low
+Signal A (high-leverage)   ████████████████████████  ~24× baseline
+Signal B                   ██████████████████        ~15×
+Signal C                   ███████████               ~10×
+Signal D                   ██                        low
 ```
 
 Tree (for file structures or org charts) — already covered by the standard `├── └──` tree pattern, use freely.
@@ -256,9 +256,9 @@ Apply the **two-job test**:
 > *Does the playbook cover more than one distinct operational job — such that a user pursuing one job would have to skim past content for the other?*
 
 Examples:
-- **Twitter folder** → Job A: write and distribute X content (algo + hooks + replies + quotes). Job B: build the agent pipeline that automates Job A (Cowork + Claude SDK + analytics). A user drafting a quote tweet won't read Job B; a user building the pipeline won't re-read Job A. **Two-job test passes → propose split.**
-- **PPC-agents folder** → one job: build PPC automation. Even if 20 KB, a user always wants the full picture. **Test fails → keep as one.**
-- **Agent-commerce folder** → one job: build/think-about commerce-agent products. Even with sub-lanes (shopping agents, micropayments SaaS), they inform the same operator decision. **Test fails → keep as one.**
+- **Two-job folder** → Job A: how to *do* a thing (tactical playbook for an active practice). Job B: how to *automate* doing that thing (the system or pipeline that makes Job A repeatable). A user pursuing Job A won't read Job B; a user building Job B won't re-read Job A. **Two-job test passes → propose split.**
+- **Single-domain folder** → one job: build or operate one specific system. The user wants the full picture in one place — even at 20 KB. **Test fails → keep as one.**
+- **Sub-lane folder** → one job with internal sub-lanes (e.g., two product variants in the same category). The sub-lanes inform the same operator decision, so they belong together. **Test fails → keep as one.**
 
 If the two-job test **passes**:
 - Surface a split proposal in the chat: name the candidate playbooks, give a one-sentence boundary rule per playbook, ask the user to confirm.
@@ -314,7 +314,7 @@ Output the end-of-run summary (format below).
 
 ```json
 {
-  "topic": "ppc-agents",
+  "topic": "<topic-slug>",
   "last_run": "2026-05-16T...",
   "run_mode": "incremental",
   "playbook_size_bytes": 5421,
@@ -343,22 +343,22 @@ Output the end-of-run summary (format below).
 
 ```json
 {
-  "topic": "twitter",
+  "topic": "<topic-slug>",
   "last_run": "...",
   "run_mode": "first-run",
   "playbook_size_bytes": 25372,
   "playbooks": [
     {
-      "file": "_distilled/playbook-growth-tactics.md",
+      "file": "_distilled/playbook-<job-a-slug>.md",
       "size_bytes": 15160,
-      "coverage": "Write and distribute X content: ranking signals, hooks, replies, quotes, long-form, threads, A/B testing",
+      "coverage": "<one-sentence description of operational Job A>",
       "sections": ["1", "2", "3", "..."]
     },
     {
-      "file": "_distilled/playbook-content-os.md",
+      "file": "_distilled/playbook-<job-b-slug>.md",
       "size_bytes": 10212,
-      "coverage": "Build the agent pipeline that automates content production: Cowork swipefile → Claude SDK agents → analytics feedback loop",
-      "sections": ["1-architecture", "..."]
+      "coverage": "<one-sentence description of operational Job B>",
+      "sections": ["1", "..."]
     }
   ],
   "read_coverage": {...},
@@ -448,12 +448,12 @@ While scanning files, flag any whose filename is the literal Perplexity / ChatGP
 <topic>-<subtopic>-<source>-<YYYY-MM>.md
 ```
 
-Where `<source>` is the LLM/tool that produced the export (`chatgpt`, `perplexity`, `xai`, `gemini`), or the author/origin if known (e.g., `jesse-pujji`, `nav-toor`).
+Where `<source>` is the LLM/tool that produced the export (`chatgpt`, `perplexity`, `xai`, `gemini`), or the author/origin if a specific person or post is the source.
 
 Examples:
-- `google-gemini-cli-subagents-chatgpt-2026-05.md`
-- `agent-commerce-trust-patterns-perplexity-2026-05.md`
-- `claude-cowork-workflow-patterns-chatgpt-2026-05.md`
+- `industry-trends-key-findings-perplexity-2026-05.md`
+- `tools-evaluation-comparison-matrix-chatgpt-2026-05.md`
+- `workflow-patterns-from-author-name-chatgpt-2026-05.md`
 
 **Propose only. Never auto-rename — even at high confidence.** Filename changes can break links, scripts, and manifests. The user decides which to apply and when.
 

@@ -18,12 +18,12 @@ You run deep research on Perplexity, ChatGPT, or xAI. The files pile up in `~/Re
    BEFORE                                AFTER
    ────────                              ────────
 
-   ~/Research/twitter/                   ~/Research/twitter/
-   ├─ I am trying to brainsto...md       ├─ _sources/      ← canonical kept files
-   ├─ How to craft a 280-char...md       ├─ _distilled/
-   ├─ Common errors using patt...md      │  ├─ playbook.md      ← operator reference
-   ├─ Examples of viral threa...md       │  └─ manifest.json    ← audit trail
-   ├─ Pattern interruption te...md       ├─ _archive/      ← low-signal / superseded
+   ~/Research/<topic>/                   ~/Research/<topic>/
+   ├─ I came accross this post...md      ├─ _sources/      ← canonical kept files
+   ├─ How to do X for Y...md             ├─ _distilled/
+   ├─ Common errors when doing...md      │  ├─ playbook.md      ← operator reference
+   ├─ Examples of the best Z...md        │  └─ manifest.json    ← audit trail
+   ├─ Patterns for building W...md       ├─ _archive/      ← low-signal / superseded
    ├─ ... 34 more files                  └─ _quarantine/   ← ambiguous (needs review)
 
    (you never re-open this)              (you re-open the playbook weekly)
@@ -201,11 +201,11 @@ After two months you have a tight reference you re-read weekly, plus a fat archi
    ─────────────────                  ─────────────────────────
 
    Target: one topic folder           Target: ~/Research/ (parent)
-   ~/Research/twitter/                ~/Research/
-                                      ├── twitter/
-   Produces:                          ├── ppc-agents/
-   • playbook.md                      ├── agent-commerce/
-   • manifest.json                    └── ... (10 topics)
+   ~/Research/<topic>/                ~/Research/
+                                      ├── <topic-a>/
+   Produces:                          ├── <topic-b>/
+   • playbook.md                      ├── <topic-c>/
+   • manifest.json                    └── ... (N topics)
    • _sources/ _archive/
      _quarantine/                     Produces:
                                       • _overlap-report.md
@@ -256,15 +256,15 @@ Every section follows a scannable shape. A reader should know what to do in 15 s
 **Edge cases:** <when this breaks or doesn't apply> (optional)
 ```
 
-ASCII diagrams replace markdown tables (which don't render reliably across viewers). Example from a real Twitter playbook output:
+ASCII diagrams replace markdown tables (which don't render reliably across viewers). Example showing how relative impact is communicated in a playbook section:
 
 ```
-Reply (sub-thread)   ████████████████████████  ~13–27× a like
-Quote tweet          ██████████████████        ~10–25×
-Bookmark             ███████████               ~10×
-Early velocity       ████████                  gatekeeper
-Plain repost         ██                        low
-Like (raw)           █                         baseline
+Signal A (high-leverage interaction)    ████████████████████████  ~24× baseline
+Signal B                                ██████████████████        ~15×
+Signal C (gatekeeper)                   ███████████               high
+Signal D                                ████████                  significant
+Signal E                                ██                        marginal
+Signal F                                █                         baseline
 ```
 
 Strategic / reflective sections don't force the Rule / Execution / Example shape — they use bulleted observations to avoid feeling mechanical.

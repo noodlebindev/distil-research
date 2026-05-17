@@ -13,7 +13,7 @@ All notable changes to `distil-research`.
 
 ### Added
 - **`_sources/` folder** for canonical kept files. Top level now holds only the four `_` folders after a run; new files dropped in at the top level get routed on next `/distil research`.
-- **Strict keep gate hardening**: canonical-source rule (only one canonical per topical territory) and expertise-aware rejection (foundational marketing/PPC concepts archived as `low_signal`).
+- **Strict keep gate hardening**: canonical-source rule (only one canonical per topical territory) and expertise-aware rejection (foundational content for the user's stated expertise area archived as `low_signal`).
 - **Split-confirmation flow** for >1-job playbooks: skill recommends, user confirms, then writes split files. Documented manifest schema for both single and split modes.
 - **Partial routing second test** (Step 8): `partial` verdict only goes to `_sources/` if what remains after extraction is itself worth re-reading; otherwise `_archive/` with sections still recorded.
 
